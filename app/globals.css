@@ -1,0 +1,130 @@
+@import "tailwindcss";
+
+:root {
+  --primary: #1E3A8A;
+  --primary-dark: #1E40AF;
+  --accent: #10B981;
+  --sidebar: #0B1120;
+  --sidebar-hover: #1E293B;
+  --card: #FFFFFF;
+  --bg: #F1F5F9;
+  --border: #E2E8F0;
+}
+
+html[dir="rtl"] {
+  font-family: "Cairo", system-ui, sans-serif;
+}
+
+html[dir="ltr"] {
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: #0F172A;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 20px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* Stat Card */
+.stat-card {
+  @apply bg-white rounded-2xl border border-slate-100 p-5 shadow-sm hover:shadow-md transition-all;
+}
+
+/* Sidebar */
+.sidebar-link {
+  @apply flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-400 hover:bg-white/8 hover:text-white transition-all text-[13px] font-medium;
+}
+.sidebar-link.active {
+  @apply bg-emerald-500/15 text-emerald-400 font-semibold;
+}
+
+/* Tables */
+.table-wrap {
+  @apply bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm;
+}
+.data-table {
+  @apply w-full text-sm;
+}
+.data-table th {
+  @apply bg-slate-50/80 text-right px-4 py-3.5 font-semibold text-slate-600 border-b border-slate-100 whitespace-nowrap;
+}
+[dir="ltr"] .data-table th {
+  @apply text-left;
+}
+.data-table td {
+  @apply px-4 py-3.5 border-b border-slate-50 text-slate-700 whitespace-nowrap;
+}
+.data-table tr:hover td {
+  @apply bg-slate-50/60;
+}
+
+/* Badges */
+.badge {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+.badge-success { @apply bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200; }
+.badge-warning { @apply bg-amber-50 text-amber-700 ring-1 ring-amber-200; }
+.badge-danger { @apply bg-red-50 text-red-700 ring-1 ring-red-200; }
+.badge-info { @apply bg-blue-50 text-blue-700 ring-1 ring-blue-200; }
+.badge-neutral { @apply bg-slate-100 text-slate-600 ring-1 ring-slate-200; }
+
+/* Buttons */
+.btn,
+.btn-primary,
+.btn-accent,
+.btn-outline,
+.btn-ghost,
+.btn-danger {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-all active:scale-[0.98] disabled:opacity-50 text-sm;
+}
+.btn-primary {
+  @apply bg-[var(--primary)] text-white px-4 py-2.5 hover:bg-[var(--primary-dark)] shadow-sm;
+}
+.btn-accent {
+  @apply bg-[var(--accent)] text-white px-4 py-2.5 hover:bg-emerald-600 shadow-sm;
+}
+.btn-outline {
+  @apply border border-slate-200 bg-white text-slate-700 px-4 py-2.5 hover:bg-slate-50;
+}
+.btn-ghost {
+  @apply text-slate-600 px-3 py-2 hover:bg-slate-100;
+}
+.btn-danger {
+  @apply bg-red-50 text-red-600 px-4 py-2.5 hover:bg-red-100;
+}
+.btn-sm {
+  @apply px-3 py-1.5 text-xs rounded-lg;
+}
+
+.input {
+  @apply w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm focus:border-[var(--primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/10 transition-all;
+}
+
+/* Print Invoice Styles */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .print-area, .print-area * {
+    visibility: visible;
+  }
+  .print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: white !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
