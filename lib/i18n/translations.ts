@@ -43,6 +43,12 @@ export const translations = {
     settings: "الإعدادات العامة",
     profile: "الملف الشخصي",
     logout: "تسجيل الخروج",
+    coupons: "الكوبونات",
+    addons: "الإضافات المدفوعة",
+    affiliates: "برنامج الشركاء",
+    billing: "الفوترة والضرائب",
+    systemHealth: "حالة النظام",
+    security: "جدار الحماية والأمان",
     
     // Dashboard
     totalCompanies: "إجمالي الشركات",
@@ -147,6 +153,12 @@ export const translations = {
     settings: "General Settings",
     profile: "Profile",
     logout: "Logout",
+    coupons: "Coupons",
+    addons: "Add-ons",
+    affiliates: "Affiliates",
+    billing: "Tax & Billing",
+    systemHealth: "System Health",
+    security: "Security & WAF",
     
     // Dashboard
     totalCompanies: "Total Companies",

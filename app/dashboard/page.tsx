@@ -2,7 +2,7 @@
 
 import {
   Building2, Users, UserPlus, DollarSign, CreditCard, FileText,
-  Ticket, TrendingUp, AlertTriangle, CheckCircle2
+  Ticket, TrendingUp, AlertTriangle, CheckCircle2, Activity, Server, Database, RefreshCw
 } from "lucide-react";
 import {
   AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell,
@@ -55,18 +55,22 @@ export default function SuperAdminDashboard() {
   const monthlyRevenueSum = payments.filter(p => p.status === "completed" && p.date.startsWith("2026-07")).reduce((s, p) => s + p.amount, 0) || 187500;
   const yearlyRevenueSum = totalRevenueSum || 1845000;
 
+  const mrrSum = monthlyRevenueSum;
+  const arrSum = yearlyRevenueSum;
+  const churnRate = "2.4%"; // Mock
+
   const stats = [
     { title: t("totalCompanies"), value: formatNumber(totalCompaniesCount, locale), icon: Building2, color: "bg-blue-50 text-blue-600", change: "+8%" },
     { title: t("activeCompanies"), value: formatNumber(activeCompaniesCount, locale), icon: CheckCircle2, color: "bg-emerald-50 text-emerald-600" },
     { title: t("suspendedCompanies"), value: formatNumber(suspendedCompaniesCount, locale), icon: AlertTriangle, color: "bg-red-50 text-red-600" },
+    { title: isAr ? "MRR (إيرادات شهرية)" : "MRR", value: formatCurrency(mrrSum, locale), icon: RefreshCw, color: "bg-violet-50 text-violet-600", change: "+5%" },
+    { title: isAr ? "ARR (إيرادات سنوية)" : "ARR", value: formatCurrency(arrSum, locale), icon: TrendingUp, color: "bg-indigo-50 text-indigo-600", change: "+12%" },
+    { title: isAr ? "معدل الإلغاء (Churn)" : "Churn Rate", value: churnRate, icon: AlertTriangle, color: "bg-rose-50 text-rose-600", change: "-0.5%" },
     { title: t("activeSubscriptions"), value: formatNumber(activeSubscriptionsCount, locale), icon: CreditCard, color: "bg-violet-50 text-violet-600" },
     { title: t("expiredSubscriptions"), value: formatNumber(expiredSubscriptionsCount, locale), icon: AlertTriangle, color: "bg-amber-50 text-amber-600" },
     { title: t("totalUsers"), value: formatNumber(totalUsersCount, locale), icon: Users, color: "bg-indigo-50 text-indigo-600" },
     { title: t("totalLeads"), value: formatNumber(totalLeadsCount, locale), icon: UserPlus, color: "bg-cyan-50 text-cyan-600" },
     { title: t("totalRevenue"), value: formatCurrency(yearlyRevenueSum, locale), icon: DollarSign, color: "bg-green-50 text-green-700" },
-    { title: t("monthlyRevenue"), value: formatCurrency(monthlyRevenueSum, locale), icon: TrendingUp, color: "bg-emerald-50 text-emerald-600", change: "+12%" },
-    { title: t("yearlyRevenue"), value: formatCurrency(yearlyRevenueSum, locale), icon: DollarSign, color: "bg-teal-50 text-teal-600" },
-    { title: t("totalInvoices"), value: formatNumber(invoices.length, locale), icon: FileText, color: "bg-slate-100 text-slate-600" },
     { title: t("supportTickets"), value: formatNumber(tickets.length, locale), icon: Ticket, color: "bg-orange-50 text-orange-600" },
   ];
 
@@ -174,6 +178,44 @@ export default function SuperAdminDashboard() {
         </div>
       </div>
 
+      {/* System Health */}
+      <div className="grid grid-cols-1 gap-5">
+        <div className="stat-card">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-bold text-base flex items-center gap-2">
+              <Activity className="w-5 h-5 text-emerald-500" />
+              {isAr ? "حالة النظام" : "System Health"}
+            </h3>
+            <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs px-2 py-1 rounded-md flex items-center gap-1 font-bold">
+               <CheckCircle2 className="w-3.5 h-3.5" /> 100% {isAr ? "ممتاز" : "Excellent"}
+            </span>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            <div>
+              <div className="flex justify-between text-xs mb-1">
+                <span className="text-slate-600 flex items-center gap-1"><Server className="w-3.5 h-3.5" /> CPU Usage</span>
+                <span className="font-bold text-emerald-600">12%</span>
+              </div>
+              <div className="w-full bg-slate-100 rounded-full h-1.5"><div className="bg-emerald-500 h-1.5 rounded-full" style={{ width: '12%' }}></div></div>
+            </div>
+            <div>
+              <div className="flex justify-between text-xs mb-1">
+                <span className="text-slate-600 flex items-center gap-1"><Database className="w-3.5 h-3.5" /> RAM Usage</span>
+                <span className="font-bold text-emerald-600">28%</span>
+              </div>
+              <div className="w-full bg-slate-100 rounded-full h-1.5"><div className="bg-emerald-500 h-1.5 rounded-full" style={{ width: '28%' }}></div></div>
+            </div>
+            <div>
+              <div className="flex justify-between text-xs mb-1">
+                <span className="text-slate-600">DB Load</span>
+                <span className="font-bold text-emerald-600">15%</span>
+              </div>
+              <div className="w-full bg-slate-100 rounded-full h-1.5"><div className="bg-emerald-500 h-1.5 rounded-full" style={{ width: '15%' }}></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Tables */}
       <div className="grid lg:grid-cols-2 gap-5">
         {/* Recent Companies */}
@@ -182,33 +224,35 @@ export default function SuperAdminDashboard() {
             <h3 className="font-bold text-sm">{t("recentCompanies")}</h3>
             <a href="/dashboard/companies" className="text-xs text-blue-600 hover:underline">{t("view")}</a>
           </div>
-          <table className="data-table">
-            <thead>
-              <tr>
-                <th>{t("companyName")}</th>
-                <th>{t("plan")}</th>
-                <th>{t("status")}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {companies.slice(0, 4).map((c) => (
-                <tr key={c.id}>
-                  <td>
-                    <div className="flex items-center gap-2">
-                      <div className="w-7 h-7 rounded-lg bg-slate-100 flex items-center justify-center text-xs font-bold">{c.logo}</div>
-                      <span className="font-medium text-sm">{isAr ? c.name : c.nameEn}</span>
-                    </div>
-                  </td>
-                  <td><span className="badge badge-info text-[10px]">{isAr ? c.plan : c.planEn}</span></td>
-                  <td>
-                    <span className={`badge ${c.status === "active" ? "badge-success" : "badge-danger"}`}>
-                      {c.status === "active" ? t("active") : t("inactive")}
-                    </span>
-                  </td>
+          <div className="overflow-x-auto">
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>{t("companyName")}</th>
+                  <th>{t("plan")}</th>
+                  <th>{t("status")}</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {companies.slice(0, 4).map((c) => (
+                  <tr key={c.id}>
+                    <td>
+                      <div className="flex items-center gap-2">
+                        <div className="w-7 h-7 rounded-lg bg-slate-100 flex items-center justify-center text-xs font-bold">{c.logo}</div>
+                        <span className="font-medium text-sm">{isAr ? c.name : c.nameEn}</span>
+                      </div>
+                    </td>
+                    <td><span className="badge badge-info text-[10px]">{isAr ? c.plan : c.planEn}</span></td>
+                    <td>
+                      <span className={`badge ${c.status === "active" ? "badge-success" : "badge-danger"}`}>
+                        {c.status === "active" ? t("active") : t("inactive")}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
 
         {/* Recent Payments */}
@@ -217,28 +261,30 @@ export default function SuperAdminDashboard() {
             <h3 className="font-bold text-sm">{t("recentPayments")}</h3>
             <a href="/dashboard/payments" className="text-xs text-blue-600 hover:underline">{t("view")}</a>
           </div>
-          <table className="data-table">
-            <thead>
-              <tr>
-                <th>{t("companyName")}</th>
-                <th>{isAr ? "المبلغ" : "Amount"}</th>
-                <th>{t("status")}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {payments.slice(0, 4).map((p) => (
-                <tr key={p.id}>
-                  <td className="font-medium text-sm">{isAr ? p.company : p.companyEn}</td>
-                  <td className="font-medium">{formatCurrency(p.amount, locale)}</td>
-                  <td>
-                    <span className={`badge ${p.status === "completed" ? "badge-success" : "badge-danger"}`}>
-                      {p.status === "completed" ? (isAr ? "مكتمل" : "Completed") : (isAr ? "فشل" : "Failed")}
-                    </span>
-                  </td>
+          <div className="overflow-x-auto">
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>{t("companyName")}</th>
+                  <th>{isAr ? "المبلغ" : "Amount"}</th>
+                  <th>{t("status")}</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {payments.slice(0, 4).map((p) => (
+                  <tr key={p.id}>
+                    <td className="font-medium text-sm">{isAr ? p.company : p.companyEn}</td>
+                    <td className="font-medium">{formatCurrency(p.amount, locale)}</td>
+                    <td>
+                      <span className={`badge ${p.status === "completed" ? "badge-success" : "badge-danger"}`}>
+                        {p.status === "completed" ? (isAr ? "مكتمل" : "Completed") : (isAr ? "فشل" : "Failed")}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

@@ -7,15 +7,16 @@ import { Plus, Search, Download, LogIn, MoreHorizontal, Building2, Filter } from
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useData } from "@/lib/context/DataContext";
 import { formatNumber } from "@/lib/utils";
+import CompanyRowActions from "@/components/companies/CompanyRowActions";
 
 function CompaniesContent() {
   const { t, locale } = useLanguage();
   const isAr = locale === "ar";
-  const { companies, setShowAddCompanyModal } = useData();
+  const { companies, setCompanies, setShowAddCompanyModal } = useData();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  
+
   const search = searchParams.get("search") || "";
 
   const handleSearchChange = (val: string) => {
@@ -30,8 +31,8 @@ function CompaniesContent() {
 
   const filtered = companies.filter(c => {
     const name = isAr ? c.name : c.nameEn;
-    return name.toLowerCase().includes(search.toLowerCase()) || 
-      c.email.toLowerCase().includes(search.toLowerCase()) || 
+    return name.toLowerCase().includes(search.toLowerCase()) ||
+      c.email.toLowerCase().includes(search.toLowerCase()) ||
       (isAr ? c.owner : c.ownerEn).toLowerCase().includes(search.toLowerCase());
   });
 
@@ -82,62 +83,57 @@ function CompaniesContent() {
       </div>
 
       {/* Table */}
-      <div className="table-wrap overflow-x-auto">
-        <table className="data-table">
-          <thead>
-            <tr>
-              <th>{t("companyName")}</th>
-              <th>{t("owner")}</th>
-              <th>{t("email")} / {t("phone")}</th>
-              <th>{t("country")}</th>
-              <th>{t("plan")}</th>
-              <th>{t("users")}</th>
-              <th>{t("leads")}</th>
-              <th>{t("startDate")}</th>
-              <th>{t("endDate")}</th>
-              <th>{t("status")}</th>
-              <th>{t("actions")}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.map((c) => (
-              <tr key={c.id}>
-                <td>
-                  <Link href={`/dashboard/companies/${c.id}`} className="flex items-center gap-2.5 hover:opacity-80">
-                    <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center text-sm font-bold">{c.logo}</div>
-                    <span className="font-medium text-sm text-blue-700">{isAr ? c.name : c.nameEn}</span>
-                  </Link>
-                </td>
-                <td className="text-sm">{isAr ? c.owner : c.ownerEn}</td>
-                <td>
-                  <div className="text-sm">{c.email}</div>
-                  <div className="text-[11px] text-slate-400">{c.phone}</div>
-                </td>
-                <td className="text-sm">{isAr ? c.country : c.countryEn}</td>
-                <td><span className="badge badge-info">{isAr ? c.plan : c.planEn}</span></td>
-                <td className="text-center font-medium">{c.users}</td>
-                <td className="text-center font-medium">{formatNumber(c.leads, locale)}</td>
-                <td className="text-sm text-slate-500">{c.startDate}</td>
-                <td className="text-sm text-slate-500">{c.endDate}</td>
-                <td>
-                  <span className={`badge ${c.status === "active" ? "badge-success" : "badge-danger"}`}>
-                    {c.status === "active" ? t("active") : t("inactive")}
-                  </span>
-                </td>
-                <td>
-                  <div className="flex items-center gap-0.5">
-                    <button className="p-1.5 hover:bg-emerald-50 rounded-lg text-emerald-600" title={t("loginAs")}>
-                      <LogIn className="w-3.5 h-3.5" />
-                    </button>
-                    <button className="p-1.5 hover:bg-slate-100 rounded-lg">
-                      <MoreHorizontal className="w-3.5 h-3.5 text-slate-400" />
-                    </button>
-                  </div>
-                </td>
+      <div className="table-wrap">
+        <div className="overflow-x-auto w-full">
+          <table className="data-table min-w-max">
+            <thead>
+              <tr>
+                <th>{t("companyName")}</th>
+                <th>{t("owner")}</th>
+                <th>{t("email")} / {t("phone")}</th>
+                <th>{t("country")}</th>
+                <th>{t("plan")}</th>
+                <th>{t("users")}</th>
+                <th>{t("leads")}</th>
+                <th>{t("startDate")}</th>
+                <th>{t("endDate")}</th>
+                <th>{t("status")}</th>
+                <th>{t("actions")}</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filtered.map((c) => (
+                <tr key={c.id}>
+                  <td>
+                    <Link href={`/dashboard/companies/${c.id}`} className="flex items-center gap-2.5 hover:opacity-80">
+                      <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center text-sm font-bold">{c.logo}</div>
+                      <span className="font-medium text-sm text-blue-700">{isAr ? c.name : c.nameEn}</span>
+                    </Link>
+                  </td>
+                  <td className="text-sm">{isAr ? c.owner : c.ownerEn}</td>
+                  <td>
+                    <div className="text-sm">{c.email}</div>
+                    <div className="text-[11px] text-slate-400">{c.phone}</div>
+                  </td>
+                  <td className="text-sm">{isAr ? c.country : c.countryEn}</td>
+                  <td><span className="badge badge-info">{isAr ? c.plan : c.planEn}</span></td>
+                  <td className="text-center font-medium">{c.users}</td>
+                  <td className="text-center font-medium">{formatNumber(c.leads, locale)}</td>
+                  <td className="text-sm text-slate-500">{c.startDate}</td>
+                  <td className="text-sm text-slate-500">{c.endDate}</td>
+                  <td>
+                    <span className={`badge ${c.status === "active" ? "badge-success" : "badge-danger"}`}>
+                      {c.status === "active" ? t("active") : t("inactive")}
+                    </span>
+                  </td>
+                  <td>
+                    <CompanyRowActions company={c} setCompanies={setCompanies} t={t} isAr={isAr} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

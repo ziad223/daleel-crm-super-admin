@@ -6,7 +6,7 @@ import {
   LayoutDashboard, Building2, Package, CreditCard, FileText,
   Users, Shield, Globe, Sparkles, BarChart3, Database,
   ClipboardList, Ticket, Bell, FileEdit, Palette, Settings,
-  Key, User, LogOut, X
+  Key, User, LogOut, X, PackagePlus, Tag, Activity, Receipt
 } from "lucide-react";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { cn } from "@/lib/utils";
@@ -26,13 +26,18 @@ export default function Sidebar({ mobileOpen, desktopCollapsed, onClose }: Sideb
     { href: "/dashboard/companies", label: t("companies"), icon: Building2 },
     { href: "/dashboard/plans", label: t("plans"), icon: Package },
     { href: "/dashboard/subscriptions", label: t("subscriptions"), icon: CreditCard },
+    { href: "/dashboard/addons", label: t("addons" as any), icon: PackagePlus },
+    { href: "/dashboard/coupons", label: t("coupons" as any), icon: Tag },
     { href: "/dashboard/payments", label: t("payments"), icon: CreditCard },
     { href: "/dashboard/invoices", label: t("invoices"), icon: FileText },
     { href: "/dashboard/users", label: t("adminUsers"), icon: Users },
+    { href: "/dashboard/affiliates", label: t("affiliates" as any), icon: Users },
     { href: "/dashboard/roles", label: t("roles"), icon: Shield },
     { href: "/dashboard/domains", label: t("domains"), icon: Globe },
     { href: "/dashboard/ai-settings", label: t("aiSettings"), icon: Sparkles },
     { href: "/dashboard/reports", label: t("reports"), icon: BarChart3 },
+    { href: "/dashboard/system-health", label: t("systemHealth" as any), icon: Activity },
+    { href: "/dashboard/security", label: t("security" as any), icon: Shield },
     { href: "/dashboard/backups", label: t("backups"), icon: Database },
     { href: "/dashboard/audit-logs", label: t("auditLogs"), icon: ClipboardList },
     { href: "/dashboard/tickets", label: t("tickets"), icon: Ticket },
@@ -40,6 +45,7 @@ export default function Sidebar({ mobileOpen, desktopCollapsed, onClose }: Sideb
     { href: "/dashboard/cms", label: t("cms"), icon: FileEdit },
     { href: "/dashboard/branding", label: t("branding"), icon: Palette },
     { href: "/dashboard/api", label: t("apiIntegrations"), icon: Key },
+    { href: "/dashboard/settings/billing", label: t("billing" as any), icon: Receipt },
     { href: "/dashboard/settings", label: t("settings"), icon: Settings },
     { href: "/dashboard/profile", label: t("profile"), icon: User },
   ];

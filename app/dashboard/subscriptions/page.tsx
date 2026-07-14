@@ -6,6 +6,7 @@ import { useData } from "@/lib/context/DataContext";
 import { formatCurrency } from "@/lib/utils";
 import { MoreHorizontal, RefreshCw, ArrowUp, ArrowDown, Pause, Play, X, ShieldAlert } from "lucide-react";
 import { toast } from "sonner";
+import SubscriptionRowActions from "@/components/subscriptions/SubscriptionRowActions";
 
 type Subscription = {
   id: number;
@@ -103,6 +104,11 @@ export default function SubscriptionsPage() {
     setUpgradingSub(null);
   };
 
+  const handleDeleteSubscription = (id: number) => {
+    setSubscriptions(prev => prev.filter(s => s.id !== id));
+    toast.success(isAr ? "تم إلغاء الاشتراك وحذفه بنجاح" : "Subscription cancelled and deleted successfully");
+  };
+
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
@@ -150,32 +156,14 @@ export default function SubscriptionsPage() {
                   </button>
                 </td>
                 <td>
-                  <div className="flex gap-0.5">
-                    <button 
-                      onClick={() => handleExtend(s.id)} 
-                      className="p-1.5 hover:bg-blue-50 rounded-lg text-blue-600 cursor-pointer transition-colors" 
-                      title={isAr ? "تمديد 30 يوم" : "Extend 30 Days"}
-                    >
-                      <RefreshCw className="w-3.5 h-3.5" />
-                    </button>
-                    <button 
-                      onClick={() => setUpgradingSub(s)} 
-                      className="p-1.5 hover:bg-emerald-50 rounded-lg text-emerald-600 cursor-pointer transition-colors" 
-                      title={isAr ? "ترقية الباقة" : "Upgrade Plan"}
-                    >
-                      <ArrowUp className="w-3.5 h-3.5" />
-                    </button>
-                    <button 
-                      onClick={() => handleTogglePaymentStatus(s.id)} 
-                      className="p-1.5 hover:bg-amber-50 rounded-lg text-amber-600 cursor-pointer transition-colors" 
-                      title={s.paymentStatus === "paid" ? (isAr ? "تعليق الدفع" : "Suspend Payment") : (isAr ? "تنشيط الدفع" : "Activate Payment")}
-                    >
-                      {s.paymentStatus === "paid" ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-                    </button>
-                    <button className="p-1.5 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors">
-                      <MoreHorizontal className="w-3.5 h-3.5 text-slate-400" />
-                    </button>
-                  </div>
+                  <SubscriptionRowActions 
+                    subscription={s}
+                    isAr={isAr}
+                    onExtend={() => handleExtend(s.id)}
+                    onUpgrade={() => setUpgradingSub(s)}
+                    onTogglePayment={() => handleTogglePaymentStatus(s.id)}
+                    onDelete={() => handleDeleteSubscription(s.id)}
+                  />
                 </td>
               </tr>
             ))}
