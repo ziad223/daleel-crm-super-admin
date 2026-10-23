@@ -178,44 +178,6 @@ export default function SuperAdminDashboard() {
         </div>
       </div>
 
-      {/* System Health */}
-      <div className="grid grid-cols-1 gap-5">
-        <div className="stat-card">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-bold text-base flex items-center gap-2">
-              <Activity className="w-5 h-5 text-emerald-500" />
-              {isAr ? "حالة النظام" : "System Health"}
-            </h3>
-            <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs px-2 py-1 rounded-md flex items-center gap-1 font-bold">
-               <CheckCircle2 className="w-3.5 h-3.5" /> 100% {isAr ? "ممتاز" : "Excellent"}
-            </span>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            <div>
-              <div className="flex justify-between text-xs mb-1">
-                <span className="text-slate-600 flex items-center gap-1"><Server className="w-3.5 h-3.5" /> CPU Usage</span>
-                <span className="font-bold text-emerald-600">12%</span>
-              </div>
-              <div className="w-full bg-slate-100 rounded-full h-1.5"><div className="bg-emerald-500 h-1.5 rounded-full" style={{ width: '12%' }}></div></div>
-            </div>
-            <div>
-              <div className="flex justify-between text-xs mb-1">
-                <span className="text-slate-600 flex items-center gap-1"><Database className="w-3.5 h-3.5" /> RAM Usage</span>
-                <span className="font-bold text-emerald-600">28%</span>
-              </div>
-              <div className="w-full bg-slate-100 rounded-full h-1.5"><div className="bg-emerald-500 h-1.5 rounded-full" style={{ width: '28%' }}></div></div>
-            </div>
-            <div>
-              <div className="flex justify-between text-xs mb-1">
-                <span className="text-slate-600">DB Load</span>
-                <span className="font-bold text-emerald-600">15%</span>
-              </div>
-              <div className="w-full bg-slate-100 rounded-full h-1.5"><div className="bg-emerald-500 h-1.5 rounded-full" style={{ width: '15%' }}></div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Tables */}
       <div className="grid lg:grid-cols-2 gap-5">
         {/* Recent Companies */}

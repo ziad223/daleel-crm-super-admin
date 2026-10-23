@@ -121,15 +121,12 @@ export default function SearchModal() {
       { path: "/dashboard/users", label: t("adminUsers"), labelEn: "Admin Users" },
       { path: "/dashboard/roles", label: t("roles"), labelEn: "Roles & Permissions" },
       { path: "/dashboard/domains", label: t("domains"), labelEn: "Domains" },
-      { path: "/dashboard/ai-settings", label: t("aiSettings"), labelEn: "AI Settings" },
       { path: "/dashboard/reports", label: t("reports"), labelEn: "Reports" },
       { path: "/dashboard/backups", label: t("backups"), labelEn: "Backups" },
       { path: "/dashboard/audit-logs", label: t("auditLogs"), labelEn: "Audit Logs" },
       { path: "/dashboard/tickets", label: t("tickets"), labelEn: "Tickets" },
-      { path: "/dashboard/notifications", label: t("notifications"), labelEn: "Notifications" },
       { path: "/dashboard/cms", label: t("cms"), labelEn: "CMS" },
       { path: "/dashboard/branding", label: t("branding"), labelEn: "Branding" },
-      { path: "/dashboard/api", label: t("apiIntegrations"), labelEn: "API & Integrations" },
       { path: "/dashboard/settings", label: t("settings"), labelEn: "General Settings" },
       { path: "/dashboard/profile", label: t("profile"), labelEn: "Profile" }
     ];
